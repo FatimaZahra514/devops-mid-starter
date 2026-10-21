@@ -1,0 +1,28 @@
+services:
+  web:
+    image: fatimazahra514/mid-app:55551
+    environment:
+      ROLLNO: "55551"
+      REDIS_HOST: cache
+    ports:
+      - "8051:5000"
+    networks:
+      - net-55551
+    depends_on:
+      - cache
+
+  cache:
+    image: redis:alpine
+    command: ["redis-server", "--appendonly", "yes", "--dir", "/data"]
+    volumes:
+      - data-55551:/data
+    networks:
+      - net-55551
+
+networks:
+  net-55551:
+    name: net-55551
+
+volumes:
+  data-55551:
+    name: data-55551
